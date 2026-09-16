@@ -5,12 +5,7 @@ phases:
     commands:
       - yum install -y openssh-clients
       - mkdir -p ~/.ssh
-
-      - aws secretsmanager get-secret-value \
-          --secret-id chapter2/ec2-ssh-key \
-          --query SecretString \
-          --output text > /tmp/ec2-key.pem
-
+      - aws secretsmanager get-secret-value --secret-id chapter2/ec2-ssh-key --query SecretString --output text > /tmp/ec2-key.pem
       - chmod 400 /tmp/ec2-key.pem
 
   build:
@@ -20,10 +15,10 @@ phases:
   post_build:
     commands:
       - echo "Deploying to EC2..."
-      - ssh-keyscan -H <EC2_PUBLIC_IP> >> ~/.ssh/known_hosts
+      - ssh-keyscan -H 34.201.104.212 >> ~/.ssh/known_hosts
       - >
         ssh -i /tmp/ec2-key.pem
-        ubuntu@<EC2_PUBLIC_IP>
+        ubuntu@34.201.104.212
         "cd ~/todo-list-app &&
          git pull origin main &&
          docker compose build &&
