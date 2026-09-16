@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - apt-get update -y
+      - apt-get install -y openssh-client
+
+      - mkdir -p ~/.ssh
+
+      - aws secretsmanager get-secret-value \
+          --secret-id chapter2/ec2-ssh-key \
+          --query SecretString \
+          --output text > /tmp/ec2-key.pem
+
+      - chmod 400 /tmp/ec2-key.pem
+
+  build:
+    commands:
+      - echo "Build phase"
+      - echo "Preparing deployment to EC2..."
+
+  post_build:
+    commands:
+      - echo "Connecting to EC2..."
+      - ssh-keyscan -H 34.201.104.212 >> ~/.ssh/known_hosts
+      - ssh -i /tmp/ec2-key.pem ubuntu@34.201.104.212 "echo SSH connection successful"
+
