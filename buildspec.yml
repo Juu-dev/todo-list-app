@@ -16,4 +16,4 @@ phases:
     commands:
       - echo "Deploying to EC2..."
       - ssh-keyscan -H 34.201.104.212 >> ~/.ssh/known_hosts
-      - ssh -i /tmp/ec2-key.pem ubuntu@<EC2_PUBLIC_IP> "echo SSH connection successful"
+      - ssh -i /tmp/ec2-key.pem ubuntu@34.201.104.212 "echo SSH connection successful"
