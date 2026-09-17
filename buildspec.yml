@@ -20,6 +20,7 @@ phases:
         ssh -i /tmp/ec2-key.pem
         ubuntu@34.201.104.212
         "cd ~/todo-list-app &&
-         git pull origin main &&
+         git pull origin chapter2-cicd-partA &&
+         git checkout chapter2-cicd-partA &&
          docker compose build &&
          docker compose up -d"
