@@ -16,5 +16,5 @@ phases:
       - aws ssm send-command
           --instance-ids "i-0679e0ae6042ce455"
           --document-name "AWS-RunShellScript"
-          --parameters 'commands=["cd ~/todo-list-app","git pull origin chapter2-cicd-partB","git checkout chapter2-cicd-partB","docker compose build","docker compose up -d"]'
+          --parameters 'commands=["cd /home/ubuntu/todo-list-app","git pull origin chapter2-cicd-partB","git checkout chapter2-cicd-partB","docker compose build","docker compose up -d"]'
           --comment "Deploy Todo App"
