@@ -12,9 +12,12 @@ phases:
 
   post_build:
     commands:
-      - echo "Deploying to EC2..."
-      - aws ssm send-command
-          --instance-ids "i-0679e0ae6042ce455"
-          --document-name "AWS-RunShellScript"
-          --parameters 'commands=["cd /home/ubuntu/todo-list-app","git pull origin chapter2-cicd-partB","git checkout chapter2-cicd-partB","docker compose build","docker compose up -d"]'
+      - echo "Deploying to EC2 via SSM..."
+      - >
+        aws ssm send-command \
+          --instance-ids "i-0679e0ae6042ce455" \
+          --document-name "AWS-RunShellScript" \
+          --parameters 'commands=[
+            "runuser -l ubuntu -c \"cd /home/ubuntu/todo-list-app && git pull origin chapter2-cicd-partB && git checkout chapter2-cicd-partB && docker compose build && docker compose up -d\""
+          ]' \
           --comment "Deploy Todo App"
